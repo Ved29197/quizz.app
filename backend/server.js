@@ -12,6 +12,11 @@ app.use(express.json());
 // app.use(express.static(path.join(__dirname, "../frontend")));
 app.use(express.static(path.join(__dirname, '..', 'frontend')));
 
+// Add this catch-all route to serve index.html for all requests
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'frontend', 'index.html'));
+});
+
 
 // Connect to SQLite database
 const db = new sqlite3.Database("./quiz.db");
