@@ -14,7 +14,54 @@ const screens = {
     leaderboard: document.getElementById('leaderboard-screen'),
     profile: document.getElementById('profile-screen')
 };
+function handleSignup() {
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirm-password').value;
 
+    // Validation
+    if (password !== confirmPassword) {
+        alert("Passwords don't match!");
+        return;
+    }
+
+    if (username.length < 3) {
+        alert("Username must be at least 3 characters long!");
+        return;
+    }
+
+    // Call signup API
+    signup(username, password);
+}
+
+// Your actual signup API function
+async function signup(username, password) {
+    try {
+        console.log('Sending signup request for:', username);
+        
+        const response = await fetch('/signup', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ username, password })
+        });
+
+        const data = await response.json();
+        console.log('Signup response:', data);
+        
+        if (data.success) {
+            alert("Account created successfully!");
+            // Switch to login form after successful signup
+            showLoginForm();
+        } else {
+            alert(data.message || "Signup failed");
+        }
+    } catch (error) {
+        console.error('Signup error:', error);
+        alert("Network error - please try again");
+    }
+}
 // Authentication functions
 function showLogin() {
     document.getElementById('auth-title').textContent = 'Login';

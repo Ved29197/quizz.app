@@ -6,16 +6,9 @@ const path = require("path");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+app.use(express.json()); // Parse JSON bodies
+app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
 app.use(express.static(path.join(__dirname, '..', 'Frontend')));
-
-// Only root route for now
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "../Frontend/index.html"));
-});
-
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
 
 // Connect to SQLite database
 const db = new sqlite3.Database("./quiz.db");
@@ -56,6 +49,8 @@ app.post("/signup", (req, res) => {
 // Login
 app.post("/login", (req, res) => {
   const { username, password } = req.body;
+    console.log('Signup attempt:', username); // Add this line
+
   
   if (!username || !password) {
     return res.json({ success: false, message: "Username and password are required" });
@@ -63,8 +58,11 @@ app.post("/login", (req, res) => {
 
   db.get("SELECT * FROM users WHERE username = ? AND password = ?", [username, password], (err, row) => {
     if (err) {
+            console.log('Signup error:', err.message); // Add this line
       return res.json({ success: false, message: "Error logging in" });
     }
+        console.log('Signup successful for user:', username); // Add this line
+
     
     if (row) {
       res.json({ 
@@ -151,20 +149,11 @@ app.get("/profile/:userId", (req, res) => {
   });
 });
 
-// // Serve frontend
-// app.get("/", (req, res) => {
-//   res.sendFile(path.join(__dirname, "../frontend/index.html"));
-// });
+// Root route (should be after API routes)
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "../Frontend/index.html"));
+});
 
-// app.listen(PORT, () => {
-//   console.log(`🎯 Quiz App Server running at http://localhost:${PORT}`);
-// });
-
-// // Debug logging
-// console.log('Current directory:', __dirname);
-// console.log('Frontend path:', path.join(__dirname, '..', 'frontend'));
-
-// const PORT = process.env.PORT || 3000;
-// app.listen(PORT, '0.0.0.0', () => {
-//   console.log(`Server running on port ${PORT}`);
-// });
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Server running on port ${PORT}`);
+});
