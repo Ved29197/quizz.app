@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Master</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Auth Screen -->
+        <div id="auth-screen" class="screen active">
+            <div class="auth-container">
+                <h1>🎯 Quiz Master</h1>
+                
+                <div class="auth-form">
+                    <h2 id="auth-title">Login</h2>
+                    
+                    <div class="tabs">
+                        <button class="tab active" onclick="showLogin()">Login</button>
+                        <button class="tab" onclick="showSignup()">Sign Up</button>
+                    </div>
+                    
+                    <input type="text" id="username" placeholder="Username" required>
+                    <input type="password" id="password" placeholder="Password" required>
+                    <input type="password" id="confirm-password" placeholder="Confirm Password" style="display: none;">
+                    
+                    <button id="auth-btn" onclick="handleAuth()">Login</button>
+                    
+                    <div id="auth-message" class="message"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Menu Screen -->
+        <div id="menu-screen" class="screen">
+            <div class="menu-container">
+                <h1>🎯 Quiz Master</h1>
+                <div class="user-info">
+                    Welcome, <span id="user-name"></span>!
+                    <br>
+                    <small>High Score: <span id="user-highscore">0</span></small>
+                </div>
+                
+                <div class="menu-options">
+                    <button onclick="startQuiz()" class="menu-btn">🚀 Start Quiz</button>
+                    <button onclick="showLeaderboard()" class="menu-btn">🏆 Leaderboard</button>
+                    <button onclick="showProfile()" class="menu-btn">👤 Profile</button>
+                    <button onclick="logout()" class="menu-btn logout">🚪 Logout</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quiz Screen -->
+        <div id="quiz-screen" class="screen">
+            <div class="quiz-container">
+                <div class="quiz-header">
+                    <div class="quiz-info">
+                        <span>Score: <span id="current-score">0</span></span>
+                        <span>Time: <span id="timer">30</span>s</span>
+                        <span>Question: <span id="question-number">1</span>/10</span>
+                    </div>
+                </div>
+                
+                <div class="question-container">
+                    <h2 id="question-text">Loading question...</h2>
+                    <div id="options-container" class="options-container">
+                        <!-- Options will be populated by JavaScript -->
+                    </div>
+                </div>
+                
+                <div class="quiz-controls">
+                    <button onclick="endQuiz()" class="control-btn quit">🏃 Quit Quiz</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Screen -->
+        <div id="results-screen" class="screen">
+            <div class="results-container">
+                <h1>Quiz Complete! 🎉</h1>
+                <div class="score-display">
+                    <h2>Your Score: <span id="final-score">0</span></h2>
+                    <h3>High Score: <span id="final-highscore">0</span></h3>
+                </div>
+                <div class="results-actions">
+                    <button onclick="backToMenu()" class="action-btn">🏠 Main Menu</button>
+                    <button onclick="startQuiz()" class="action-btn">🔄 Play Again</button>
+                    <button onclick="showLeaderboard()" class="action-btn">🏆 Leaderboard</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Leaderboard Screen -->
+        <div id="leaderboard-screen" class="screen">
+            <div class="leaderboard-container">
+                <h1>🏆 Leaderboard</h1>
+                <div id="leaderboard-list" class="leaderboard-list">
+                    <!-- Leaderboard entries will be populated here -->
+                </div>
+                <button onclick="backToMenu()" class="action-btn">← Back to Menu</button>
+            </div>
+        </div>
+
+        <!-- Profile Screen -->
+        <div id="profile-screen" class="screen">
+            <div class="profile-container">
+                <h1>👤 Profile</h1>
+                <div class="profile-info">
+                    <p><strong>Username:</strong> <span id="profile-username"></span></p>
+                    <p><strong>Current Score:</strong> <span id="profile-score">0</span></p>
+                    <p><strong>High Score:</strong> <span id="profile-highscore">0</span></p>
+                </div>
+                <button onclick="backToMenu()" class="action-btn">← Back to Menu</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="quiz.js"></script>
+</body>
+</html>
