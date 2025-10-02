@@ -6,17 +6,16 @@ const path = require("path");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware
-// app.use(cors());
-app.use(express.json());
-// app.use(express.static(path.join(__dirname, "../frontend")));
 app.use(express.static(path.join(__dirname, '..', 'frontend')));
 
-// Add this catch-all route to serve index.html for all requests
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '..', 'frontend', 'index.html'));
+// Only root route for now
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "../frontend/index.html"));
 });
 
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
 
 // Connect to SQLite database
 const db = new sqlite3.Database("./quiz.db");
@@ -152,11 +151,20 @@ app.get("/profile/:userId", (req, res) => {
   });
 });
 
-// Serve frontend
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "../frontend/index.html"));
-});
+// // Serve frontend
+// app.get("/", (req, res) => {
+//   res.sendFile(path.join(__dirname, "../frontend/index.html"));
+// });
 
-app.listen(PORT, () => {
-  console.log(`🎯 Quiz App Server running at http://localhost:${PORT}`);
-});
+// app.listen(PORT, () => {
+//   console.log(`🎯 Quiz App Server running at http://localhost:${PORT}`);
+// });
+
+// // Debug logging
+// console.log('Current directory:', __dirname);
+// console.log('Frontend path:', path.join(__dirname, '..', 'frontend'));
+
+// const PORT = process.env.PORT || 3000;
+// app.listen(PORT, '0.0.0.0', () => {
+//   console.log(`Server running on port ${PORT}`);
+// });
